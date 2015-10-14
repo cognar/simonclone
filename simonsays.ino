@@ -1,14 +1,6 @@
 static int pins[] = {10,9,8,11}; //up, right, down, left
 static int tones[] = {247, 523, 988, 1397};
-int tonePin = 12;
-int upDownPin = 0;
-int upDown = 512;
-int leftRightPin = 1;
-int leftRight = 512;
-int next = 0;
-boolean lost = false;
-int moves[20];
-int roundNum = 0;
+int tonePin = 12, upDownPin = 0, leftRightPin = 1;
 
 void setup(){
   for (int i = 0; i < 4; i++){
@@ -38,6 +30,11 @@ void flash(){
 
 void loop(){
   randomSeed(analogRead(5));
+  int upDown = 512, leftRight = 512;    //set joystick variables to neutral position
+  int next = 0;
+  int moves[20];    //stores all moves so far
+  int roundNum = 0;
+  boolean lost = false;    //reset for new game
   while(!lost){
     next = random(0,4);
     moves[roundNum] = next;
@@ -62,8 +59,8 @@ void loop(){
           digitalWrite(pins[0], LOW);
           if(moves[i] != 0){
             lost = true;
-            break;
           }
+          break;
         }
         else if(leftRight > 600){    //User inputs right
           digitalWrite(pins[1], HIGH);
@@ -100,7 +97,5 @@ void loop(){
     }
   }
   flash();
-  delay(10000);    //delay between games
-  lost = false;
-  roundNum = 0;
+  delay(5000);    //delay between games
 }
